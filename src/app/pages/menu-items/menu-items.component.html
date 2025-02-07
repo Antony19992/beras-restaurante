@@ -22,7 +22,7 @@
             <h2>{{item.title}}</h2>
             <p>{{item.description}}</p>
             <p class="ingredients" *ngIf="item.ingredients?.length">
-              <strong>Ingredientes:</strong> {{item.ingredients?.join(', ')}}
+              <strong>Ingredientes:</strong> {{getIngredientsText(item)}}
             </p>
             <p class="price">R$ {{item.price | number:'1.2-2'}}</p>
           </mat-card-content>

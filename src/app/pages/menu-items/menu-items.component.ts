@@ -58,6 +58,11 @@ export class MenuItemsComponent implements OnInit {
     return this.menuItems.filter(item => item.category === categoryId);
   }
 
+  getIngredientsText(item: MenuItem): string {
+    if (!item.ingredients?.length) return '';
+    return item.ingredients.map(i => i.name).join(', ');
+  }
+
   private updateSelectedCategory() {
     const sections = this.categories.map(cat => ({
       id: cat.id,
@@ -79,12 +84,19 @@ export class MenuItemsComponent implements OnInit {
   openCustomizationDialog(item: MenuItem): void {
     const dialogRef = this.dialog.open(ItemCustomizationDialogComponent, {
       width: '500px',
-      data: { ...item }
+      data: { 
+        item,
+        ingredients: item.ingredients || []
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.menuItemsService.addToCart(result);
+        this.menuItemsService.addToCart(
+          item,
+          result.ingredients?.filter((i: any) => !i.selected).map((i: any) => i.name) || [],
+          result.observations
+        );
       }
     });
   }

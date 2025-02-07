@@ -5,18 +5,17 @@ export interface MenuItem {
   price: number;
   imageUrl: string;
   category: string;
-  ingredients?: string[];
+  ingredients?: Ingredient[];
+}
+
+export interface CartMenuItem extends MenuItem {
+  quantity: number;
   removedIngredients?: string[];
   observations?: string;
 }
 
 export interface Ingredient {
-  id: number;
   name: string;
-  removable: boolean;
   selected: boolean;
-}
-
-export interface CartMenuItem extends MenuItem {
-  quantity: number;
+  removable: boolean;
 }

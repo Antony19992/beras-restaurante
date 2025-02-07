@@ -18,7 +18,16 @@ export class ItemCustomizationDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ItemCustomizationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+  ) {
+    // Inicializar ingredientes como selecionados
+    if (this.data.ingredients) {
+      this.data.ingredients = this.data.ingredients.map(ingredient => ({
+        ...ingredient,
+        selected: true,
+        removable: true
+      }));
+    }
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

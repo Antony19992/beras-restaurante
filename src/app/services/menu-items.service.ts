@@ -15,7 +15,13 @@ export class MenuItemsService {
       price: 18.90,
       imageUrl: 'assets/images/marmita-tradicional.jpg',
       category: 'marmitas',
-      ingredients: ['Arroz', 'Feijão', 'Bife', 'Alface', 'Tomate']
+      ingredients: [
+        { name: 'Arroz Branco', selected: true, removable: true },
+        { name: 'Feijão Carioca', selected: true, removable: true },
+        { name: 'Bife Grelhado', selected: true, removable: true },
+        { name: 'Alface', selected: true, removable: true },
+        { name: 'Tomate', selected: true, removable: true }
+      ]
     },
     {
       id: 2,
@@ -24,7 +30,13 @@ export class MenuItemsService {
       price: 22.90,
       imageUrl: 'assets/images/marmita-fitness.jpg',
       category: 'marmitas',
-      ingredients: ['Arroz integral', 'Frango', 'Brócolis', 'Cenoura', 'Abobrinha']
+      ingredients: [
+        { name: 'Arroz Integral', selected: true, removable: true },
+        { name: 'Frango Grelhado', selected: true, removable: true },
+        { name: 'Brócolis no Vapor', selected: true, removable: true },
+        { name: 'Cenoura no Vapor', selected: true, removable: true },
+        { name: 'Abobrinha no Vapor', selected: true, removable: true }
+      ]
     },
     {
       id: 3,
@@ -48,7 +60,13 @@ export class MenuItemsService {
       description: 'Pudim caseiro com calda de caramelo',
       price: 8.00,
       imageUrl: 'assets/images/pudim.jpg',
-      category: 'sobremesas'
+      category: 'sobremesas',
+      ingredients: [
+        { name: 'Leite Condensado', selected: true, removable: false },
+        { name: 'Leite', selected: true, removable: false },
+        { name: 'Ovos', selected: true, removable: false },
+        { name: 'Calda de Caramelo', selected: true, removable: true }
+      ]
     },
     {
       id: 6,
@@ -56,7 +74,12 @@ export class MenuItemsService {
       description: 'Mousse cremoso de chocolate meio amargo',
       price: 7.50,
       imageUrl: 'assets/images/mousse.jpg',
-      category: 'sobremesas'
+      category: 'sobremesas',
+      ingredients: [
+        { name: 'Chocolate Meio Amargo', selected: true, removable: false },
+        { name: 'Creme de Leite', selected: true, removable: false },
+        { name: 'Raspas de Chocolate', selected: true, removable: true }
+      ]
     },
     {
       id: 7,
@@ -64,7 +87,12 @@ export class MenuItemsService {
       description: 'Marmita tradicional + Refrigerante + Sobremesa',
       price: 29.90,
       imageUrl: 'assets/images/combo-executivo.jpg',
-      category: 'combos'
+      category: 'combos',
+      ingredients: [
+        { name: 'Marmita Tradicional', selected: true, removable: false },
+        { name: 'Refrigerante 350ml', selected: true, removable: true },
+        { name: 'Pudim de Leite', selected: true, removable: true }
+      ]
     }
   ];
 
