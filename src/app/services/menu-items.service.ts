@@ -116,14 +116,35 @@ export class MenuItemsService {
 
   addToCart(item: MenuItem, removedIngredients: string[] = [], observations: string = ''): void {
     const currentItems = this.cartItems.value;
-    const cartItem: CartMenuItem = {
-      ...item,
-      quantity: 1,
+    
+    console.log('Adding to cart:', {
+      item,
       removedIngredients,
       observations
-    };
+    });
+    
+    // Check if the item already exists in the cart with the same removed ingredients
+    const existingItemIndex = currentItems.findIndex(cartItem => 
+      cartItem.id === item.id && 
+      JSON.stringify(cartItem.removedIngredients?.sort()) === JSON.stringify(removedIngredients.sort()) &&
+      cartItem.observations === observations
+    );
 
-    this.cartItems.next([...currentItems, cartItem]);
+    if (existingItemIndex !== -1) {
+      // If item exists with same customizations, increment quantity
+      const updatedItems = [...currentItems];
+      updatedItems[existingItemIndex].quantity += 1;
+      this.cartItems.next(updatedItems);
+    } else {
+      // If item doesn't exist or has different customizations, add as new item
+      const cartItem: CartMenuItem = {
+        ...item,
+        quantity: 1,
+        removedIngredients: removedIngredients,
+        observations: observations
+      };
+      this.cartItems.next([...currentItems, cartItem]);
+    }
   }
 
   removeFromCart(itemId: number): void {

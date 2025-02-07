@@ -19,12 +19,11 @@ export class ItemCustomizationDialogComponent {
     public dialogRef: MatDialogRef<ItemCustomizationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
-    // Inicializar ingredientes como selecionados
+    // Inicializar ingredientes como selecionados (mantidos)
     if (this.data.ingredients) {
       this.data.ingredients = this.data.ingredients.map(ingredient => ({
         ...ingredient,
-        selected: true,
-        removable: true
+        selected: true // Inicialmente todos os ingredientes estão selecionados (mantidos)
       }));
     }
   }
@@ -36,12 +35,20 @@ export class ItemCustomizationDialogComponent {
   toggleIngredient(ingredient: Ingredient): void {
     if (ingredient.removable) {
       ingredient.selected = !ingredient.selected;
+      console.log('Toggled ingredient:', ingredient.name, 'Selected:', ingredient.selected);
     }
   }
 
   onConfirm(): void {
+    // Envia os ingredientes que NÃO estão selecionados (serão removidos)
+    const removedIngredients = this.data.ingredients
+      .filter(i => !i.selected && i.removable)
+      .map(i => i.name);
+
+    console.log('Removed ingredients:', removedIngredients);
+
     this.dialogRef.close({
-      ingredients: this.data.ingredients,
+      removedIngredients: removedIngredients,
       observations: this.observations
     });
   }

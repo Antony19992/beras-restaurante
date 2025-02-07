@@ -94,8 +94,8 @@ export class MenuItemsComponent implements OnInit {
       if (result) {
         this.menuItemsService.addToCart(
           item,
-          result.ingredients?.filter((i: any) => !i.selected).map((i: any) => i.name) || [],
-          result.observations
+          result.removedIngredients || [],
+          result.observations || ''
         );
       }
     });

@@ -57,7 +57,7 @@ export class CartComponent implements OnInit {
     
     let printOutput = '\n';
     printOutput += '='.repeat(40) + '\n';
-    printOutput += '           BERAS HAMBURGUERIA           \n';
+    printOutput += '           BERAS MARMITARIA           \n';
     printOutput += '='.repeat(40) + '\n\n';
     
     printOutput += `Data: ${currentDate.toLocaleDateString()}\n`;
@@ -68,21 +68,33 @@ export class CartComponent implements OnInit {
     printOutput += 'ITENS DO PEDIDO:\n';
     printOutput += '-'.repeat(40) + '\n';
     
+    console.log('Cart items for printing:', this.cartItems);
+    
     this.cartItems.forEach(item => {
       printOutput += `${item.quantity}x ${item.title}\n`;
       printOutput += `   Preço un.: R$ ${item.price.toFixed(2)}\n`;
       printOutput += `   Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}\n`;
       
-      if (item.removedIngredients && item.removedIngredients.length > 0) {
-        printOutput += '   ** Remover:\n';
-        item.removedIngredients.forEach(ingredient => {
-          printOutput += `      - ${ingredient}\n`;
-        });
-      }
+      // Adiciona os ingredientes removidos e observações se houver
+      const hasRemovedIngredients = item.removedIngredients && item.removedIngredients.length > 0;
+      const hasObservations = item.observations && item.observations.trim().length > 0;
       
-      if (item.observations) {
-        printOutput += '   ** Observações:\n';
-        printOutput += `      ${item.observations}\n`;
+      console.log('Item customizations:', {
+        item: item.title,
+        removedIngredients: item.removedIngredients,
+        observations: item.observations
+      });
+      
+      if (hasRemovedIngredients || hasObservations) {
+        printOutput += '   ** Personalização:\n';
+        
+        if (hasRemovedIngredients && item.removedIngredients) {
+          printOutput += `      Remover: ${item.removedIngredients.join(', ')}\n`;
+        }
+        
+        if (hasObservations && item.observations) {
+          printOutput += `      Obs: ${item.observations.trim()}\n`;
+        }
       }
       
       printOutput += '-'.repeat(40) + '\n';
@@ -90,8 +102,7 @@ export class CartComponent implements OnInit {
     
     printOutput += '\n';
     printOutput += `Subtotal: R$ ${this.total.toFixed(2)}\n`;
-    printOutput += `Total: R$ ${this.total.toFixed(2)}\n`;
-    printOutput += '\n';
+    printOutput += `Total: R$ ${this.total.toFixed(2)}\n\n`;
     printOutput += '='.repeat(40) + '\n';
     printOutput += '            Bom apetite!               \n';
     printOutput += '='.repeat(40) + '\n';

@@ -34,10 +34,10 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      
+
       if (this.authService.login(email, password)) {
         this.router.navigate(['/home']);
-        this.snackBar.open('Bem-vindo à Beras Hamburgueria!', 'OK', {
+        this.snackBar.open('Bem-vindo à Beras Marmitaria!', 'OK', {
           duration: 3000,
           horizontalPosition: 'end',
           verticalPosition: 'bottom'

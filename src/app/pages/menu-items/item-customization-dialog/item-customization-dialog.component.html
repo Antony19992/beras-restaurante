@@ -6,16 +6,17 @@
 
   <div class="ingredients-list" *ngIf="data.ingredients?.length">
     <h3>Ingredientes</h3>
-    <mat-selection-list>
+    <mat-selection-list #ingredientsList [multiple]="true">
       <mat-list-option *ngFor="let ingredient of data.ingredients"
                       [value]="ingredient"
                       [selected]="ingredient.selected"
                       [disabled]="!ingredient.removable"
-                      (selectionChange)="toggleIngredient(ingredient)">
+                      (click)="toggleIngredient(ingredient)">
         {{ingredient.name}}
         <span *ngIf="!ingredient.removable" class="required-ingredient">(Obrigatório)</span>
       </mat-list-option>
     </mat-selection-list>
+    <p class="helper-text">Selecione os ingredientes que você deseja manter no seu pedido.</p>
   </div>
 
   <div class="observations">
