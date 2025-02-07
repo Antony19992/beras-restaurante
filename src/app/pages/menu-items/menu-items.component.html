@@ -1,18 +1,45 @@
 <div class="menu-container">
-  <div class="menu-grid">
-    <mat-card class="menu-item" *ngFor="let item of menuItems">
-      <img mat-card-image [src]="item.imageUrl" [alt]="item.title">
-      <mat-card-content>
-        <h2>{{item.title}}</h2>
-        <p>{{item.description}}</p>
-        <p class="price">R$ {{item.price | number:'1.2-2'}}</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="openCustomizationDialog(item)">
-          <mat-icon>add_shopping_cart</mat-icon>
-          Personalizar e Adicionar
-        </button>
-      </mat-card-actions>
-    </mat-card>
+  <nav class="category-nav">
+    <div class="category-buttons">
+      <button mat-raised-button 
+              *ngFor="let category of categories" 
+              [class.active]="selectedCategory === category.id"
+              (click)="scrollToCategory(category.id)">
+        <mat-icon>{{category.icon}}</mat-icon>
+        {{category.name}}
+      </button>
+    </div>
+  </nav>
+
+  <div class="menu-sections">
+    <div *ngFor="let category of categories" [id]="category.id" class="menu-section">
+      <h2 class="section-title">{{category.name}}</h2>
+      
+      <div class="menu-grid">
+        <mat-card class="menu-item" *ngFor="let item of getItemsByCategory(category.id)">
+          <img mat-card-image [src]="item.imageUrl" [alt]="item.title">
+          <mat-card-content>
+            <h2>{{item.title}}</h2>
+            <p>{{item.description}}</p>
+            <p class="ingredients" *ngIf="item.ingredients?.length">
+              <strong>Ingredientes:</strong> {{item.ingredients?.join(', ')}}
+            </p>
+            <p class="price">R$ {{item.price | number:'1.2-2'}}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="openCustomizationDialog(item)">
+              <mat-icon>add_shopping_cart</mat-icon>
+              Personalizar e Adicionar
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
   </div>
+
+  <button mat-fab class="scroll-top-button" 
+          (click)="scrollToTop()" 
+          [class.show]="showScrollTop">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
 </div>

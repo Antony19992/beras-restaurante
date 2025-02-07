@@ -4,7 +4,10 @@ export interface MenuItem {
   description: string;
   price: number;
   imageUrl: string;
-  ingredients?: Ingredient[];
+  category: string;
+  ingredients?: string[];
+  removedIngredients?: string[];
+  observations?: string;
 }
 
 export interface Ingredient {
@@ -16,6 +19,4 @@ export interface Ingredient {
 
 export interface CartMenuItem extends MenuItem {
   quantity: number;
-  removedIngredients?: string[];
-  observations?: string;
 }

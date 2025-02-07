@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItem, Ingredient } from '../../interfaces/menu-item.interface';
-import { MenuItemsService } from '../../services/menu-items.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MenuItem } from '../../interfaces/menu-item.interface';
+import { MenuItemsService } from '../../services/menu-items.service';
 import { ItemCustomizationDialogComponent } from './item-customization-dialog/item-customization-dialog.component';
+
+interface MenuCategory {
+  id: string;
+  name: string;
+  icon: string;
+}
 
 @Component({
   selector: 'app-menu-items',
@@ -12,10 +17,18 @@ import { ItemCustomizationDialogComponent } from './item-customization-dialog/it
 })
 export class MenuItemsComponent implements OnInit {
   menuItems: MenuItem[] = [];
+  selectedCategory: string = 'marmitas';
+  showScrollTop: boolean = false;
+
+  categories: MenuCategory[] = [
+    { id: 'marmitas', name: 'Marmitas', icon: 'restaurant' },
+    { id: 'bebidas', name: 'Bebidas', icon: 'local_bar' },
+    { id: 'sobremesas', name: 'Sobremesas', icon: 'cake' },
+    { id: 'combos', name: 'Combos', icon: 'fastfood' }
+  ];
 
   constructor(
     private menuItemsService: MenuItemsService,
-    private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
 
@@ -23,27 +36,55 @@ export class MenuItemsComponent implements OnInit {
     this.menuItems = this.menuItemsService.getMenuItems();
   }
 
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    this.showScrollTop = window.pageYOffset > 300;
+    this.updateSelectedCategory();
+  }
+
+  scrollToCategory(categoryId: string) {
+    const element = document.getElementById(categoryId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      this.selectedCategory = categoryId;
+    }
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  getItemsByCategory(categoryId: string): MenuItem[] {
+    return this.menuItems.filter(item => item.category === categoryId);
+  }
+
+  private updateSelectedCategory() {
+    const sections = this.categories.map(cat => ({
+      id: cat.id,
+      element: document.getElementById(cat.id)
+    })).filter(section => section.element);
+
+    for (const section of sections) {
+      const element = section.element;
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          this.selectedCategory = section.id;
+          break;
+        }
+      }
+    }
+  }
+
   openCustomizationDialog(item: MenuItem): void {
     const dialogRef = this.dialog.open(ItemCustomizationDialogComponent, {
-      width: '400px',
-      data: {
-        item: { ...item },
-        ingredients: item.ingredients?.map(ing => ({ ...ing })) || []
-      }
+      width: '500px',
+      data: { ...item }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const removedIngredients = result.ingredients
-          .filter((ing: Ingredient) => !ing.selected)
-          .map((ing: Ingredient) => ing.name);
-
-        this.menuItemsService.addToCart(item, removedIngredients, result.observations);
-        this.snackBar.open(`${item.title} adicionado ao carrinho!`, 'OK', {
-          duration: 2000,
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom'
-        });
+        this.menuItemsService.addToCart(result);
       }
     });
   }
