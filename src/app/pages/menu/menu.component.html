@@ -1,0 +1,11 @@
+<div class="component">
+  <div class="buttons" [class.light-mode]="!isDarkMode" [class.dark-mode]="isDarkMode">
+    <button routerLink="/home"><mat-icon fontIcon="home"></mat-icon></button>
+    <button routerLink="/cardapio"><mat-icon fontIcon="restaurant_menu"></mat-icon></button>
+    <button routerLink="/cart" class="cart-button">
+      <mat-icon fontIcon="shopping_cart"></mat-icon>
+      <span class="cart-badge" *ngIf="cartItemCount > 0">{{cartItemCount}}</span>
+    </button>
+    <button (click)="logout()"><mat-icon fontIcon="logout"></mat-icon></button>
+  </div>
+</div>

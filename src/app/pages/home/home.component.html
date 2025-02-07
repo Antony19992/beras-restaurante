@@ -1,0 +1,76 @@
+<div class="home-container">
+  <div class="welcome-section">
+    <h1>Bem-vindo, {{userName}}!</h1>
+  </div>
+
+  <!-- Pedido Atual -->
+  <div class="current-order" *ngIf="currentOrder">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon [class]="getStatusClass(currentOrder.status)">{{getStatusIcon(currentOrder.status)}}</mat-icon>
+          Pedido Atual #{{currentOrder.id}}
+        </mat-card-title>
+        <mat-card-subtitle>
+          Status: {{currentOrder.status}}
+          <span *ngIf="currentOrder.estimatedTime" class="estimated-time">
+            (Tempo estimado: {{currentOrder.estimatedTime}} min)
+          </span>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="order-items">
+          <div *ngFor="let item of currentOrder.items" class="order-item">
+            <span class="item-quantity">{{item.quantity}}x</span>
+            <span class="item-title">{{item.title}}</span>
+            <span class="item-price">R$ {{(item.price * item.quantity).toFixed(2)}}</span>
+          </div>
+        </div>
+        <div class="order-total">
+          <strong>Total:</strong> R$ {{currentOrder.total.toFixed(2)}}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Histórico de Pedidos -->
+  <div class="order-history">
+    <h2>Histórico de Pedidos</h2>
+    
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let order of orderHistory">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon [class]="getStatusClass(order.status)">{{getStatusIcon(order.status)}}</mat-icon>
+            Pedido #{{order.id}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{formatDate(order.date)}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="order-items">
+          <div *ngFor="let item of order.items" class="order-item">
+            <span class="item-quantity">{{item.quantity}}x</span>
+            <span class="item-title">{{item.title}}</span>
+            <span class="item-price">R$ {{(item.price * item.quantity).toFixed(2)}}</span>
+            
+            <div *ngIf="item.removedIngredients?.length" class="item-customization">
+              <strong>Removidos:</strong>
+              <span *ngFor="let ingredient of item.removedIngredients">{{ingredient}}</span>
+            </div>
+            
+            <div *ngIf="item.observations" class="item-customization">
+              <strong>Observações:</strong> {{item.observations}}
+            </div>
+          </div>
+        </div>
+
+        <div class="order-total">
+          <strong>Total:</strong> R$ {{order.total.toFixed(2)}}
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

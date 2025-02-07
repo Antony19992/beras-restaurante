@@ -1,0 +1,9 @@
+<div class="app-wrapper">
+  <main class="main-content">
+    <button mat-icon-button class="theme-toggle" (click)="toggleTheme()" *ngIf="isLoggedIn$ | async">
+      <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    </button>
+    <router-outlet></router-outlet>
+  </main>
+  <app-menu *ngIf="isLoggedIn$ | async" class="app-menu"></app-menu>
+</div>

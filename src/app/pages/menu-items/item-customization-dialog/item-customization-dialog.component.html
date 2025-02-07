@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Personalizar {{data.item.title}}</h2>
+
+<mat-dialog-content>
+  <div class="ingredients-list">
+    <h3>Ingredientes</h3>
+    <mat-selection-list>
+      <mat-list-option *ngFor="let ingredient of data.ingredients"
+                      [selected]="ingredient.selected"
+                      [disabled]="!ingredient.removable"
+                      (click)="toggleIngredient(ingredient)">
+        {{ingredient.name}}
+        <span *ngIf="!ingredient.removable" class="required-ingredient">(Obrigatório)</span>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+
+  <div class="observations">
+    <h3>Observações</h3>
+    <mat-form-field appearance="outline" class="full-width">
+      <textarea matInput
+                [(ngModel)]="observations"
+                placeholder="Ex: Ponto da carne, preferências especiais..."
+                rows="3"></textarea>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="onConfirm()">
+    Adicionar ao Carrinho
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,18 @@
+<div class="menu-container">
+  <div class="menu-grid">
+    <mat-card class="menu-item" *ngFor="let item of menuItems">
+      <img mat-card-image [src]="item.imageUrl" [alt]="item.title">
+      <mat-card-content>
+        <h2>{{item.title}}</h2>
+        <p>{{item.description}}</p>
+        <p class="price">R$ {{item.price | number:'1.2-2'}}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="openCustomizationDialog(item)">
+          <mat-icon>add_shopping_cart</mat-icon>
+          Personalizar e Adicionar
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

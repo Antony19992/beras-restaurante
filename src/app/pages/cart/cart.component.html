@@ -1,0 +1,59 @@
+<div class="cart-container">
+  <mat-card class="cart-card">
+    <mat-card-header>
+      <mat-card-title>Seu Carrinho</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="empty-cart" *ngIf="cartItems.length === 0">
+        <mat-icon>shopping_cart</mat-icon>
+        <p>Seu carrinho está vazio</p>
+        <button mat-raised-button color="primary" (click)="continueShopping()">
+          Continuar Comprando
+        </button>
+      </div>
+
+      <div class="cart-items" *ngIf="cartItems.length > 0">
+        <mat-card class="cart-item" *ngFor="let item of cartItems">
+          <div class="item-image">
+            <img [src]="item.imageUrl" [alt]="item.title">
+          </div>
+          <div class="item-details">
+            <h3>{{item.title}}</h3>
+            <p class="description">{{item.description}}</p>
+            <div class="price-quantity">
+              <span class="price">R$ {{item.price * item.quantity | number:'1.2-2'}}</span>
+              <div class="quantity-controls">
+                <button mat-icon-button (click)="updateQuantity(item, -1)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <span class="quantity">{{item.quantity}}</span>
+                <button mat-icon-button (click)="updateQuantity(item, 1)">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button mat-icon-button color="warn" class="remove-button" (click)="removeItem(item)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card>
+
+        <div class="cart-summary">
+          <div class="total">
+            <span>Total</span>
+            <span class="total-price">R$ {{total | number:'1.2-2'}}</span>
+          </div>
+          <div class="actions">
+            <button mat-stroked-button (click)="continueShopping()">
+              Continuar Comprando
+            </button>
+            <button mat-raised-button color="primary" (click)="checkout()">
+              Finalizar Pedido
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,90 @@
+// Variáveis
+$menu-height-mobile: 60px;
+$menu-height-tablet: 70px;
+$menu-height-desktop: 80px;
+
+// Mixins para breakpoints
+@mixin tablet {
+  @media (min-width: 768px) { @content; }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) { @content; }
+}
+
+// Reset e estilos base (mobile-first)
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  // Conteúdo principal
+  .main-content {
+    flex: 1;
+    position: relative;
+    overflow-y: auto;
+    width: 100%;
+    padding-bottom: calc($menu-height-mobile + 16px);
+
+    @include tablet {
+      padding: 24px;
+      padding-bottom: calc($menu-height-tablet + 24px);
+    }
+
+    @include desktop {
+      padding: 32px;
+      padding-bottom: calc($menu-height-desktop + 32px);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+
+  // Botão de tema
+  .theme-toggle {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    z-index: 1000;
+    width: 40px;
+    height: 40px;
+
+    @include tablet {
+      top: 16px;
+      right: 16px;
+    }
+
+    @include desktop {
+      top: 24px;
+      right: 24px;
+    }
+  }
+
+  // Menu
+  .app-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    height: $menu-height-mobile;
+
+    @include tablet {
+      height: $menu-height-tablet;
+    }
+
+    @include desktop {
+      height: $menu-height-desktop;
+    }
+  }
+}
