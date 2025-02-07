@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MenuItemsComponent } from './pages/menu-items/menu-items.component';
@@ -25,6 +26,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { 
     path: 'home', 
     component: HomeComponent,
@@ -47,6 +49,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
+    RegisterComponent,
     MenuComponent,
     HomeComponent,
     MenuItemsComponent,
