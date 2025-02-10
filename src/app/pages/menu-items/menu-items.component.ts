@@ -33,7 +33,21 @@ export class MenuItemsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.menuItems = this.menuItemsService.getMenuItems();
+    this.menuItemsService.getProducts().subscribe(
+      (data) => {
+        this.menuItems = data.map((item: MenuItem) => ({
+          id: item.id,
+          nome: item.nome,
+          descricao: item.descricao,
+          valor: item.valor,
+          categoria: item.categoria,
+          ingredientes: item.ingredientes
+        }));
+      },
+      (error) => {
+        console.error('Erro ao buscar produtos:', error);
+      }
+    );
   }
 
   @HostListener('window:scroll')
@@ -54,13 +68,14 @@ export class MenuItemsComponent implements OnInit {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  getItemsByCategory(categoryId: string): MenuItem[] {
-    return this.menuItems.filter(item => item.category === categoryId);
+  getItemsByCategory(categoria: string): MenuItem[] {
+    const filteredItems = this.menuItems.filter(item => item.categoria === categoria);
+    return filteredItems;
   }
 
   getIngredientsText(item: MenuItem): string {
-    if (!item.ingredients?.length) return '';
-    return item.ingredients.map(i => i.name).join(', ');
+    if (!item.ingredientes?.length) return '';
+    return item.ingredientes.map(i => i.descricao).join(', ');
   }
 
   private updateSelectedCategory() {
@@ -84,9 +99,9 @@ export class MenuItemsComponent implements OnInit {
   openCustomizationDialog(item: MenuItem): void {
     const dialogRef = this.dialog.open(ItemCustomizationDialogComponent, {
       width: '500px',
-      data: { 
+      data: {
         item,
-        ingredients: item.ingredients || []
+        ingredients: item.ingredientes || []
       }
     });
 

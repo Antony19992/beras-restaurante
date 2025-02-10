@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>Personalizar {{data.item.title}}</h2>
+<h2 mat-dialog-title>Personalizar {{data.item.nome}}</h2>
 
 <mat-dialog-content>
-  <p class="item-description">{{data.item.description}}</p>
-  <p class="item-price">R$ {{data.item.price | number:'1.2-2'}}</p>
+  <p class="item-description">{{data.item.descricao}}</p>
+  <p class="item-price">R$ {{data.item.valor | number:'1.2-2'}}</p>
 
   <div class="ingredients-list" *ngIf="data.ingredients?.length">
     <h3>Ingredientes</h3>
@@ -12,7 +12,7 @@
                       [selected]="ingredient.selected"
                       [disabled]="!ingredient.removable"
                       (click)="toggleIngredient(ingredient)">
-        {{ingredient.name}}
+        {{ingredient.descricao}}
         <span *ngIf="!ingredient.removable" class="required-ingredient">(Obrigatório)</span>
       </mat-list-option>
     </mat-selection-list>

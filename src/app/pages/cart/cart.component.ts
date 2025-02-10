@@ -29,7 +29,7 @@ export class CartComponent implements OnInit {
   }
 
   calculateTotal(): void {
-    this.total = this.cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    this.total = this.cartItems.reduce((acc, item) => acc + (item.valor * item.quantity), 0);
   }
 
   updateQuantity(item: CartMenuItem, change: number): void {
@@ -71,16 +71,16 @@ export class CartComponent implements OnInit {
     console.log('Cart items for printing:', this.cartItems);
     
     this.cartItems.forEach(item => {
-      printOutput += `${item.quantity}x ${item.title}\n`;
-      printOutput += `   Preço un.: R$ ${item.price.toFixed(2)}\n`;
-      printOutput += `   Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+      printOutput += `${item.quantity}x ${item.nome}\n`;
+      printOutput += `   Preço un.: R$ ${item.valor.toFixed(2)}\n`;
+      printOutput += `   Subtotal: R$ ${(item.valor * item.quantity).toFixed(2)}\n`;
       
       // Adiciona os ingredientes removidos e observações se houver
       const hasRemovedIngredients = item.removedIngredients && item.removedIngredients.length > 0;
       const hasObservations = item.observations && item.observations.trim().length > 0;
       
       console.log('Item customizations:', {
-        item: item.title,
+        item: item.nome,
         removedIngredients: item.removedIngredients,
         observations: item.observations
       });

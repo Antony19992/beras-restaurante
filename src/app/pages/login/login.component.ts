@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(email, password).subscribe(
         response => {
           localStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem('userName', response.nome);
           this.router.navigate(['/home']);
           this.snackBar.open('Bem-vindo à Beras Marmitaria!', 'OK', {
             duration: 3000,

@@ -7,42 +7,7 @@ import { CartMenuItem } from '../interfaces/menu-item.interface';
   providedIn: 'root'
 })
 export class OrderService {
-  private orders = new BehaviorSubject<Order[]>([
-    {
-      id: 1001,
-      date: new Date('2025-02-07T10:30:00'),
-      status: OrderStatus.DELIVERED,
-      total: 47.80,
-      items: [
-        {
-          id: 1,
-          title: 'Marmita Tradicional',
-          description: 'Arroz, feijão, bife grelhado, salada de alface e tomate',
-          price: 18.90,
-          imageUrl: 'assets/images/marmita-tradicional.jpg',
-          category: 'marmitas',
-          quantity: 2
-        }
-      ]
-    },
-    {
-      id: 1002,
-      date: new Date('2025-02-07T11:15:00'),
-      status: OrderStatus.PREPARING,
-      total: 22.90,
-      items: [
-        {
-          id: 2,
-          title: 'Marmita Fitness',
-          description: 'Arroz integral, frango grelhado, legumes no vapor',
-          price: 22.90,
-          imageUrl: 'assets/images/marmita-fitness.jpg',
-          category: 'marmitas',
-          quantity: 1
-        }
-      ]
-    }
-  ]);
+  private orders = new BehaviorSubject<Order[]>([]);
 
   private currentOrder = new BehaviorSubject<Order | null>(null);
 

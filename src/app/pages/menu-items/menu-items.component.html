@@ -1,8 +1,8 @@
 <div class="menu-container">
   <nav class="category-nav">
     <div class="category-buttons">
-      <button mat-raised-button 
-              *ngFor="let category of categories" 
+      <button mat-raised-button
+              *ngFor="let category of categories"
               [class.active]="selectedCategory === category.id"
               (click)="scrollToCategory(category.id)">
         <mat-icon>{{category.icon}}</mat-icon>
@@ -14,17 +14,17 @@
   <div class="menu-sections">
     <div *ngFor="let category of categories" [id]="category.id" class="menu-section">
       <h2 class="section-title">{{category.name}}</h2>
-      
+
       <div class="menu-grid">
         <mat-card class="menu-item" *ngFor="let item of getItemsByCategory(category.id)">
-          <img mat-card-image [src]="item.imageUrl" [alt]="item.title">
+          <img mat-card-image [src]="item.idImagem" [alt]="item.nome">
           <mat-card-content>
-            <h2>{{item.title}}</h2>
-            <p>{{item.description}}</p>
-            <p class="ingredients" *ngIf="item.ingredients?.length">
+            <h2>{{item.nome}}</h2>
+            <p>{{item.descricao}}</p>
+            <p class="ingredients" *ngIf="item.ingredientes?.length">
               <strong>Ingredientes:</strong> {{getIngredientsText(item)}}
             </p>
-            <p class="price">R$ {{item.price | number:'1.2-2'}}</p>
+            <p class="price">R$ {{item.valor | number:'1.2-2'}}</p>
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" (click)="openCustomizationDialog(item)">
@@ -37,9 +37,8 @@
     </div>
   </div>
 
-  <button mat-fab class="scroll-top-button" 
-          (click)="scrollToTop()" 
-          [class.show]="showScrollTop">
+  <button mat-fab class="scroll-top-button"
+          (click)="scrollToTop()"           [class.show]="showScrollTop">
     <mat-icon>arrow_upward</mat-icon>
   </button>
 </div>

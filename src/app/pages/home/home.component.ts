@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Obter nome do usuário
     const user = this.authService.getLoggedInUser();
-    this.userName = user?.name || 'Visitante';
+    this.userName = user || 'Visitante';
 
     // Inscrever-se nas mudanças do pedido atual
     this.subscriptions.push(

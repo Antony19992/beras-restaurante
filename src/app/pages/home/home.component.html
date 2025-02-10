@@ -23,8 +23,8 @@
         <div class="order-items">
           <div *ngFor="let item of currentOrder.items" class="order-item">
             <span class="item-quantity">{{item.quantity}}x</span>
-            <span class="item-title">{{item.title}}</span>
-            <span class="item-price">R$ {{(item.price * item.quantity).toFixed(2)}}</span>
+            <span class="item-title">{{item.nome}}</span>
+            <span class="item-price">R$ {{(item.valor * item.quantity).toFixed(2)}}</span>
           </div>
         </div>
         <div class="order-total">
@@ -37,7 +37,7 @@
   <!-- Histórico de Pedidos -->
   <div class="order-history">
     <h2>Histórico de Pedidos</h2>
-    
+
     <mat-accordion>
       <mat-expansion-panel *ngFor="let order of orderHistory">
         <mat-expansion-panel-header>
@@ -53,14 +53,14 @@
         <div class="order-items">
           <div *ngFor="let item of order.items" class="order-item">
             <span class="item-quantity">{{item.quantity}}x</span>
-            <span class="item-title">{{item.title}}</span>
-            <span class="item-price">R$ {{(item.price * item.quantity).toFixed(2)}}</span>
-            
+            <span class="item-title">{{item.nome}}</span>
+            <span class="item-price">R$ {{(item.valor * item.quantity).toFixed(2)}}</span>
+
             <div *ngIf="item.removedIngredients?.length" class="item-customization">
               <strong>Removidos:</strong>
               <span *ngFor="let ingredient of item.removedIngredients">{{ingredient}}</span>
             </div>
-            
+
             <div *ngIf="item.observations" class="item-customization">
               <strong>Observações:</strong> {{item.observations}}
             </div>

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MenuItem, Ingredient } from '../../../interfaces/menu-item.interface';
+import { MenuItem } from '../../../interfaces/menu-item.interface';
+import { Ingredient } from 'src/app/interfaces/ingredient.interface';
 
 interface DialogData {
   item: MenuItem;
@@ -35,7 +36,7 @@ export class ItemCustomizationDialogComponent {
   toggleIngredient(ingredient: Ingredient): void {
     if (ingredient.removable) {
       ingredient.selected = !ingredient.selected;
-      console.log('Toggled ingredient:', ingredient.name, 'Selected:', ingredient.selected);
+      console.log('Toggled ingredient:', ingredient.descricao, 'Selected:', ingredient.selected);
     }
   }
 
@@ -43,7 +44,7 @@ export class ItemCustomizationDialogComponent {
     // Envia os ingredientes que NÃO estão selecionados (serão removidos)
     const removedIngredients = this.data.ingredients
       .filter(i => !i.selected && i.removable)
-      .map(i => i.name);
+      .map(i => i.descricao);
 
     console.log('Removed ingredients:', removedIngredients);
 

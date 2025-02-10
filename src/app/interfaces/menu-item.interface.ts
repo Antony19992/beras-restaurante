@@ -1,21 +1,19 @@
+import { Ingredient } from "./ingredient.interface";
+
+
 export interface MenuItem {
   id: number;
-  title: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  category: string;
-  ingredients?: Ingredient[];
+  nome: string;
+  idImagem: string;
+  descricao: string;
+  valor: number;
+  categoria: string;
+  ativo: boolean;
+  ingredientes?: Ingredient[];
 }
 
 export interface CartMenuItem extends MenuItem {
   quantity: number;
   removedIngredients?: string[];
   observations?: string;
-}
-
-export interface Ingredient {
-  name: string;
-  selected: boolean;
-  removable: boolean;
 }

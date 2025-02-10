@@ -16,13 +16,13 @@
       <div class="cart-items" *ngIf="cartItems.length > 0">
         <mat-card class="cart-item" *ngFor="let item of cartItems">
           <div class="item-image">
-            <img [src]="item.imageUrl" [alt]="item.title">
+            <img [src]="item.idImagem" [alt]="item.nome">
           </div>
           <div class="item-details">
-            <h3>{{item.title}}</h3>
-            <p class="description">{{item.description}}</p>
+            <h3>{{item.nome}}</h3>
+            <p class="description">{{item.descricao}}</p>
             <div class="price-quantity">
-              <span class="price">R$ {{item.price * item.quantity | number:'1.2-2'}}</span>
+              <span class="price">R$ {{item.valor * item.quantity | number:'1.2-2'}}</span>
               <div class="quantity-controls">
                 <button mat-icon-button (click)="updateQuantity(item, -1)">
                   <mat-icon>remove</mat-icon>

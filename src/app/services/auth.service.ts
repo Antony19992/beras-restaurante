@@ -16,7 +16,6 @@ export interface User {
 export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false); // Inicializa como false por padrão
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
-  private currentUser: User | null = null;
 
   constructor(private router: Router, private http: HttpClient) {
     // Verifica o estado de autenticação ao inicializar o serviço
@@ -52,7 +51,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('isLoggedIn');
     this.isLoggedInSubject.next(false);
-    this.currentUser = null;
+    sessionStorage.removeItem('userName');
     this.router.navigate(['/login']);
   }
 
@@ -60,7 +59,8 @@ export class AuthService {
     return this.isLoggedInSubject.value;
   }
 
-  getLoggedInUser(): User | null {
-    return this.currentUser;
+  getLoggedInUser(): string | null {
+    let user = sessionStorage.getItem('userName');
+    return user;
   }
 }
