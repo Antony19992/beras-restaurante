@@ -44,14 +44,21 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      const userData = this.registerForm.value;
-      // TODO: Implement registration logic in AuthService
-      this.snackBar.open('Cadastro realizado com sucesso!', 'OK', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'bottom'
-      });
-      this.router.navigate(['/login']);
+      const { name, email, password, phone, address, complement } = this.registerForm.value;
+
+      this.authService.createUser(name, email, password, phone, address, complement).subscribe(
+        response => {
+          this.snackBar.open('Usuário cadastrado com sucesso!', 'OK', {
+            duration: 3000,
+          });
+          this.router.navigate(['/login']);
+        },
+        error => {
+          this.snackBar.open('Erro ao cadastrar usuário. Tente novamente.', 'OK', {
+            duration: 3000,
+          });
+        }
+      );
     }
   }
 }

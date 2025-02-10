@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 export interface User {
   id: number;
@@ -16,7 +18,7 @@ export class AuthService {
   isLoggedIn$ = this.isLoggedInSubject.asObservable();
   private currentUser: User | null = null;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private http: HttpClient) {
     // Verifica o estado de autenticação ao inicializar o serviço
     this.checkAuthState();
   }
@@ -24,29 +26,27 @@ export class AuthService {
   private checkAuthState() {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     this.isLoggedInSubject.next(isLoggedIn);
-    
+
     // Se não estiver logado, redireciona para o login
     if (!isLoggedIn && !window.location.pathname.includes('/login')) {
       this.router.navigate(['/login']);
     }
   }
 
-  login(username: string, password: string): boolean {
-    // Valores de teste
-    const testUser = 'teste@email.com';
-    const testPassword = '123456';
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/login`, { username, password });
+  }
 
-    if (username === testUser && password === testPassword) {
-      localStorage.setItem('isLoggedIn', 'true');
-      this.isLoggedInSubject.next(true);
-      this.currentUser = {
-        id: 1,
-        name: 'João Silva',
-        email: username
-      };
-      return true;
-    }
-    return false;
+  createUser(nome: string, email: string, senha: string, telefone: string, endereco: string, complemento: string, numero: string = '153'): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/users`, {
+        nome: nome,
+        email,
+        senha: senha,
+        telefone: telefone,
+        endereco: endereco,
+        complemento: complemento,
+        numero: numero
+    });
   }
 
   logout() {

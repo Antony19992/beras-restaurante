@@ -35,20 +35,23 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-      if (this.authService.login(email, password)) {
-        this.router.navigate(['/home']);
-        this.snackBar.open('Bem-vindo à Beras Marmitaria!', 'OK', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom'
-        });
-      } else {
-        this.snackBar.open('Email ou senha inválidos', 'OK', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'bottom'
-        });
-      }
+      this.authService.login(email, password).subscribe(
+        response => {
+          localStorage.setItem('isLoggedIn', 'true');
+          this.router.navigate(['/home']);
+          this.snackBar.open('Bem-vindo à Beras Marmitaria!', 'OK', {
+            duration: 3000,
+          });
+
+          // Forçar atualização da tela
+          window.location.reload();
+        },
+        error => {
+          this.snackBar.open('Erro ao fazer login. Tente novamente.', 'OK', {
+            duration: 3000,
+          });
+        }
+      );
     }
   }
 }
