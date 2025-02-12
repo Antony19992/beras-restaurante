@@ -48,11 +48,26 @@
             <mat-icon>delivery_dining</mat-icon>
             <span>Tempo médio de entrega: 30 minutos</span>
           </div>
+          <div class="payment-methods" style="margin-bottom: 20px;">
+            <h3>Selecione a Forma de Pagamento:</h3>
+            <mat-radio-group [(ngModel)]="selectedPaymentMethod">
+              <mat-radio-button value="pix">PIX</mat-radio-button>
+              <mat-radio-button value="cartao">Cartão</mat-radio-button>
+              <mat-radio-button value="dinheiro">Dinheiro</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="money-payment" *ngIf="selectedPaymentMethod === 'dinheiro'">
+            <mat-form-field appearance="fill">
+              <mat-label>Valor Pago</mat-label>
+              <input matInput type="number" [(ngModel)]="amountPaid" (ngModelChange)="calculateChange()">
+            </mat-form-field>
+            <p *ngIf="change !== null">Troco: R$ {{change | number:'1.2-2'}}</p>
+          </div>
           <div class="actions">
             <button mat-stroked-button (click)="continueShopping()">
               Continuar Comprando
             </button>
-            <button mat-raised-button color="primary" (click)="checkout()">
+            <button mat-raised-button color="primary" (click)="checkout()" [disabled]="!selectedPaymentMethod">
               Finalizar Pedido
             </button>
           </div>

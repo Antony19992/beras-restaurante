@@ -13,6 +13,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class CartComponent implements OnInit {
   cartItems: CartMenuItem[] = [];
   total: number = 0;
+  selectedPaymentMethod: string | null = null;
+  amountPaid: number | null = null;
+  change: number | null = null;
 
   constructor(
     private menuItemsService: MenuItemsService,
@@ -102,12 +105,21 @@ export class CartComponent implements OnInit {
     
     printOutput += '\n';
     printOutput += `Subtotal: R$ ${this.total.toFixed(2)}\n`;
-    printOutput += `Total: R$ ${this.total.toFixed(2)}\n\n`;
+    printOutput += `Total: R$ ${this.total.toFixed(2)}\n`;
+    printOutput += `Troco: R$ ${this.change !== null ? this.change.toFixed(2) : '0.00'}\n\n`;
     printOutput += '='.repeat(40) + '\n';
     printOutput += '            Bom apetite!               \n';
     printOutput += '='.repeat(40) + '\n';
     
     return printOutput;
+  }
+
+  calculateChange(): void {
+    if (this.amountPaid !== null) {
+      this.change = this.amountPaid - this.total;
+    } else {
+      this.change = null;
+    }
   }
 
   checkout(): void {
