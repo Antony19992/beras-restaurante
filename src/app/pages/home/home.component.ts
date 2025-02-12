@@ -21,7 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const cliente = this.authService.getLoggedInUser(); // Obter cliente
+    const cliente = this.authService.getLoggedInUser();
+    this.userName = cliente?.user || '';
     const clienteId = cliente ? cliente.id : '';
 
     if (clienteId) {
