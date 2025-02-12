@@ -25,12 +25,13 @@ import { MenuItemsComponent } from './pages/menu-items/menu-items.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { ItemCustomizationDialogComponent } from './pages/menu-items/item-customization-dialog/item-customization-dialog.component';
 import { AuthGuard } from './guards/auth.guard';
+import { PixPaymentComponent } from './pages/payment/pix-payment.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { 
-    path: 'home', 
+  {
+    path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard]
   },
@@ -44,6 +45,7 @@ const routes: Routes = [
     component: CartComponent,
     canActivate: [AuthGuard]
   },
+  { path: 'pix-payment', component: PixPaymentComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
@@ -56,7 +58,8 @@ const routes: Routes = [
     HomeComponent,
     MenuItemsComponent,
     CartComponent,
-    ItemCustomizationDialogComponent
+    ItemCustomizationDialogComponent,
+    PixPaymentComponent
   ],
   imports: [
     HttpClientModule,

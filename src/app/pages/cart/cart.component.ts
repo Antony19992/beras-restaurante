@@ -135,6 +135,11 @@ export class CartComponent implements OnInit {
       horizontalPosition: 'end',
       verticalPosition: 'bottom'
     });
-    this.router.navigate(['/home']);
+
+    if (this.selectedPaymentMethod === 'pix') {
+      this.router.navigate(['/pix-payment'], { queryParams: { total: this.total } });
+    } else {
+      this.router.navigate(['/home']);
+    }
   }
 }

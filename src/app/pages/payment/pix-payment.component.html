@@ -1,0 +1,12 @@
+<div class="pix-payment-container">
+  <h2>Pagamento via PIX</h2>
+  <p>Seu pedido será preparado após o pagamento.</p>
+  <p>Copia e cola o código abaixo para realizar o pagamento:</p>
+  <mat-form-field appearance="fill">
+    <input matInput [value]="'12345678900'" readonly>
+    <button mat-icon-button matSuffix (click)="copyToClipboard('12345678900')">
+      <mat-icon>content_copy</mat-icon>
+    </button>
+  </mat-form-field>
+  <p>Valor: R$ {{ total | number:'1.2-2' }}</p>
+</div>
