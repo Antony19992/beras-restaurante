@@ -1,12 +1,19 @@
-import { CartMenuItem } from './menu-item.interface';
+import { CartMenuItem, MenuItem } from './menu-item.interface';
 
 export interface Order {
   id: number;
-  items: CartMenuItem[];
-  total: number;
+  clienteId?: number;
   status: OrderStatus;
-  date: Date;
-  estimatedTime?: number; // tempo estimado em minutos
+  numero?: string;
+  dataHora?: string;
+  itens: CartMenuItem[];
+  produtos?: MenuItem[];
+  total: number;
+  troco?: number | null;
+  createdAt?: string;
+  updatedAt?: string;
+  date?: Date;
+  estimatedTime?: number;
 }
 
 export enum OrderStatus {

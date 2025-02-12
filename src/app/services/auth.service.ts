@@ -66,8 +66,10 @@ export class AuthService {
     return this.isLoggedInSubject.value;
   }
 
-  getLoggedInUser(): string | null {
-    let user = sessionStorage.getItem('userName');
-    return user;
+  getLoggedInUser(): { user: string | null; id: string | null; } {
+    return {
+      user: sessionStorage.getItem('userName'),
+      id: sessionStorage.getItem('clienteId')
+    };
   }
 }

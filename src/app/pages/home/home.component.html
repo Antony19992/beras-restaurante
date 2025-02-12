@@ -21,7 +21,7 @@
 
       <mat-card-content>
         <div class="order-items">
-          <div *ngFor="let item of currentOrder.items" class="order-item">
+          <div *ngFor="let item of currentOrder.itens" class="order-item">
             <span class="item-quantity">{{item.quantity}}x</span>
             <span class="item-title">{{item.nome}}</span>
             <span class="item-price">R$ {{(item.valor * item.quantity).toFixed(2)}}</span>
@@ -46,23 +46,25 @@
             Pedido #{{order.id}}
           </mat-panel-title>
           <mat-panel-description>
-            {{formatDate(order.date)}}
+            {{ order.dataHora | date:'dd/MM/yyyy HH:mm:ss' }}
           </mat-panel-description>
         </mat-expansion-panel-header>
 
+        <div>
+          <p><strong>Código:</strong> {{ order.numero }}</p>
+          <p><strong>Total:</strong> {{ order.total }}</p>
+          <p><strong>Troco:</strong> {{ order.troco !== null ? order.troco : 'Não aplicável' }}</p>
+        </div>
+
         <div class="order-items">
-          <div *ngFor="let item of order.items" class="order-item">
-            <span class="item-quantity">{{item.quantity}}x</span>
+          <div *ngFor="let item of order.produtos" class="order-item">
+            <span class="item-quantity">{{returnQuantity(item.id, order.id)}}x</span>
             <span class="item-title">{{item.nome}}</span>
-            <span class="item-price">R$ {{(item.valor * item.quantity).toFixed(2)}}</span>
+            <span class="item-price">R$ {{(item.valor).toFixed(2)}}</span>
 
-            <div *ngIf="item.removedIngredients?.length" class="item-customization">
-              <strong>Removidos:</strong>
-              <span *ngFor="let ingredient of item.removedIngredients">{{ingredient}}</span>
-            </div>
 
-            <div *ngIf="item.observations" class="item-customization">
-              <strong>Observações:</strong> {{item.observations}}
+            <div *ngIf="item.observacoes" class="item-customization">
+              <strong>Observações:</strong> {{item.observacoes}}
             </div>
           </div>
         </div>

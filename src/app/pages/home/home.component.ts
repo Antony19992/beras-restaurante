@@ -21,23 +21,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Obter nome do usuário
-    const user = this.authService.getLoggedInUser();
-    this.userName = user || 'Visitante';
+    const cliente = this.authService.getLoggedInUser(); // Obter cliente
+    const clienteId = cliente ? cliente.id : '';
 
-    // Inscrever-se nas mudanças do pedido atual
-    this.subscriptions.push(
-      this.orderService.getCurrentOrder().subscribe(order => {
-        this.currentOrder = order;
-      })
-    );
-
-    // Inscrever-se no histórico de pedidos
-    this.subscriptions.push(
-      this.orderService.getOrders().subscribe(orders => {
-        this.orderHistory = orders;
-      })
-    );
+    if (clienteId) {
+        this.orderService.getOrdersByCustomer(clienteId).subscribe(
+            (data) => {
+                this.orderHistory = Array.isArray(data) ? data : [data];
+            },
+            (error) => {
+                console.error('Erro ao buscar pedidos:', error);
+            }
+        );
+    } else {
+        console.error('ID do cliente não encontrado.');
+    }
   }
 
   ngOnDestroy(): void {
@@ -77,4 +75,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   formatDate(date: Date): string {
     return new Date(date).toLocaleString();
   }
+
+  returnQuantity(idProduto: number, idPedido: number) {
+    const pedido = this.orderHistory.find(p => p.id === idPedido);
+
+    if (!pedido) return 0;
+
+    const item = pedido.itens.find(i => i.productId === idProduto);
+
+    return item ? item.quantity : 0;
+  }
+
 }

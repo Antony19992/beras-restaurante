@@ -129,7 +129,10 @@ export class CartComponent implements OnInit {
     const printOutput = this.formatOrderForPrinting();
     console.log(printOutput);
 
-    const orderItems = this.cartItems.map(item => item.id);
+    const orderItems = this.cartItems.map(item => ({
+      productId: item.id,
+      quantity: item.quantity
+    }));
     this.orderService.createOrderApi(this.clienteId, 1, orderItems).subscribe(response => {
       console.log('Pedido criado com sucesso!', response);
       this.menuItemsService.clearCart();

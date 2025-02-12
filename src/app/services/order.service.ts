@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Order, OrderStatus } from '../interfaces/order.interface';
 import { CartMenuItem } from '../interfaces/menu-item.interface';
 import { environment } from '../../environments/environment';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -33,11 +34,12 @@ export class OrderService {
 
   createOrder(items: CartMenuItem[], total: number): void {
     const newOrder: Order = {
-      id: Math.floor(1000 + Math.random() * 9000), // ID de 4 dígitos
+      id: Math.floor(1000 + Math.random() * 9000),
       date: new Date(),
       status: OrderStatus.PENDING,
-      items,
-      total
+      itens: items,
+      total,
+      troco: null // implementar logica de troco
     };
 
     const currentOrders = this.orders.value;
@@ -62,7 +64,7 @@ export class OrderService {
     }, 90000);
   }
 
-  createOrderApi(clienteId: string, statusId: number, itens: number[]): Observable<any> {
+  createOrderApi(clienteId: string, statusId: number, itens: any[]): Observable<any> {
     const body = { clienteId, statusId, itens };
     return this.http.post(`${environment.apiUrl}${this.apiUrl}`, body);
   }
@@ -86,4 +88,8 @@ export class OrderService {
   getOrdersByCustomerApi(clienteId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/cliente/${clienteId}`);
   }
+
+  getOrdersByCustomer(clienteId: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}${this.apiUrl}/${clienteId}`);
+}
 }
