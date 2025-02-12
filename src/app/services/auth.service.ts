@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { tap } from 'rxjs/operators';
 
 export interface User {
   id: number;
@@ -33,7 +34,12 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/login`, { username, password });
+    const body = { username, password };
+    return this.http.post(`${environment.apiUrl}/login`, body).pipe(
+        tap((response: any) => {
+            sessionStorage.setItem('token', response.token); // Armazenando o token
+        })
+    );
   }
 
   createUser(nome: string, email: string, senha: string, telefone: string, endereco: string, complemento: string, numero: string = '153'): Observable<any> {
@@ -52,6 +58,7 @@ export class AuthService {
     localStorage.removeItem('isLoggedIn');
     this.isLoggedInSubject.next(false);
     sessionStorage.removeItem('userName');
+    sessionStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 

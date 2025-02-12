@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hidePassword = true;
+  clienteId: number | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,8 +38,10 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(email, password).subscribe(
         response => {
+          this.clienteId = response.clienteId;
           localStorage.setItem('isLoggedIn', 'true');
           sessionStorage.setItem('userName', response.nome);
+          sessionStorage.setItem('clienteId', response.clienteId.toString());
           this.router.navigate(['/home']);
           this.snackBar.open('Bem-vindo à Beras Marmitaria!', 'OK', {
             duration: 3000,

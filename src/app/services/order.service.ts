@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Order, OrderStatus } from '../interfaces/order.interface';
 import { CartMenuItem } from '../interfaces/menu-item.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  private apiUrl = '/pedidos';
   private orders = new BehaviorSubject<Order[]>([]);
-
   private currentOrder = new BehaviorSubject<Order | null>(null);
 
-  constructor() {
+  constructor(private http: HttpClient) {
     // Simular atualização do pedido atual após 5 segundos
     setTimeout(() => {
       const lastOrder = this.orders.value[this.orders.value.length - 1];
@@ -58,5 +60,30 @@ export class OrderService {
       this.orders.next([...this.orders.value]);
       this.currentOrder.next(null);
     }, 90000);
+  }
+
+  createOrderApi(clienteId: string, statusId: number, itens: number[]): Observable<any> {
+    const body = { clienteId, statusId, itens };
+    return this.http.post(`${environment.apiUrl}${this.apiUrl}`, body);
+  }
+
+  getAllOrdersApi(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}${this.apiUrl}`);
+  }
+
+  getOrderByIdApi(id: number): Observable<any> {
+    return this.http.get(`${environment.apiUrl}${this.apiUrl}/${id}`);
+  }
+
+  updateOrderApi(id: number, body: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}${this.apiUrl}/${id}`, body);
+  }
+
+  deleteOrderApi(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}${this.apiUrl}/${id}`);
+  }
+
+  getOrdersByCustomerApi(clienteId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/cliente/${clienteId}`);
   }
 }

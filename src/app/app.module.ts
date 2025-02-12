@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +26,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { ItemCustomizationDialogComponent } from './pages/menu-items/item-customization-dialog/item-customization-dialog.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PixPaymentComponent } from './pages/payment/pix-payment.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -79,7 +80,13 @@ const routes: Routes = [
     MatExpansionModule,
     MatRadioModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
